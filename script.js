@@ -314,6 +314,18 @@ function displayProducts() {
     });
 }
 
+// Currency formatting utility
+function getCurrencySymbol() {
+  // Use USD for Baford, Australia
+  return '$';
+}
+function formatPrice(price) {
+  // Format as USD with two decimals
+  return `${getCurrencySymbol()}${price.toFixed(2)}`;
+}
+// Note: For future, add location-based currency switching here.
+
+// Update createProductCard to use formatPrice
 function createProductCard(product) {
     const col = document.createElement('div');
     col.className = 'col-lg-4 col-md-6 mb-4 fade-in-up';
@@ -330,7 +342,7 @@ function createProductCard(product) {
                 <span class="availability-badge ${availabilityClass}">${availabilityText}</span>
                 <p class="card-text product-description">${product.description}</p>
                 <div class="d-flex justify-content-between align-items-center">
-                    <span class="product-price">$${product.price.toFixed(2)}</span>
+                    <span class="product-price">${formatPrice(product.price)}</span>
                     <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();orderProduct(${product.id})" ${!product.available ? 'disabled' : ''}>
                         <i class="fas fa-shopping-cart me-1"></i>Order Now
                     </button>
@@ -413,7 +425,7 @@ function updateCurrentProducts() {
         productItem.innerHTML = `
             <h6>${product.name}</h6>
             <p><strong>Category:</strong> ${product.category}</p>
-            <p><strong>Price:</strong> $${product.price.toFixed(2)}</p>
+            <p><strong>Price:</strong> ${formatPrice(product.price)}</p>
             <p><strong>Status:</strong> <span class="availability-badge ${availabilityClass}">${availabilityText}</span></p>
             <div class="product-actions">
                 <button class="btn btn-warning btn-sm me-1" onclick="toggleAvailability(${product.id})">
